@@ -1,0 +1,11 @@
+{
+  "name": "FastLongInserters",
+  "version": "1.2.1",
+  "title": "Fast Long Inserters",
+  "author": "DerMistkaefer",
+  "contact": "http://www.dermistkaefer.com/contact",
+  "homepage": "http://www.dermistkaefer.com",
+  "description": "Fast Long Inserters is a mod that adds the normal inserters in a long hand variant.",
+  "factorio_version":"0.15",
+  "dependencies": ["base >= 0.15.0"]
+}

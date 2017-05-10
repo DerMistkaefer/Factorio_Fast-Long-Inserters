@@ -1,0 +1,29 @@
+{
+  "item":
+  [
+    ["long-fast-inserter", "FastLongInserters_fast-inserter"],
+	["long-filter-inserter", "FastLongInserters_filter-inserter"],
+	["long-stack-inserter", "FastLongInserters_stack-inserter"],
+	["long-stack-filter-inserter", "FastLongInserters_stack-filter-inserter"]
+  ],
+  "recipe":
+  [
+    ["long-fast-inserter", "FastLongInserters_fast-inserter"],
+	["long-filter-inserter", "FastLongInserters_filter-inserter"],
+	["long-stack-inserter", "FastLongInserters_stack-inserter"],
+	["long-stack-filter-inserter", "FastLongInserters_stack-filter-inserter"]
+  ],
+  "entity":
+  [
+    ["long-fast-inserter", "FastLongInserters_fast-inserter"],
+	["long-filter-inserter", "FastLongInserters_filter-inserter"],
+	["long-stack-inserter", "FastLongInserters_stack-inserter"],
+	["long-stack-filter-inserter", "FastLongInserters_stack-filter-inserter"]
+  ],
+  "technology":
+  [
+    ["fast-long-inserter-1", "FastLongInserters-1"],
+	["fast-long-inserter-2", "FastLongInserters-2"],
+	["fast-long-inserter-3", "FastLongInserters-3"]
+  ]
+}
