@@ -4,6 +4,8 @@ Fast Long Inserters is a mod that adds the normal inserters in a long hand varia
 https://mods.factorio.com/mods/DerMistkaefer/FastLongInserters/
 
 # Changelog
+1.3.0 - Update to 0.18
+
 1.2.1 - Fix Icon Size Problems
 
 1.2.0 - Update to 0.15

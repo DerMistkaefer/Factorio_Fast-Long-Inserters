@@ -79,6 +79,7 @@ function FastLongInserter_addItemG(base,baseName,GhostName)
 	obj.icon = icon
 	obj.icon_size = 32
 	obj.place_result = obj.name
+	obj.flags = {"hidden"}
 	
 	data.raw[obj.type][obj.name] = obj
 end
@@ -86,15 +87,16 @@ end
 function FastLongInserter_addEntityG(base,baseName,GhostName)
 	local obj = util.table.deepcopy(data.raw["inserter"][base])
 	obj.name = FLI.modName .. "_" .. GhostName
-	obj.minable.result = obj.name
-	
+	obj.minable = null
+	obj.next_upgrade = null
+
 	local baseGraphics = "__".. FLI.modName .."__/graphics/entity/Ghost/"
 	local baseGraphicsInserter = baseGraphics .. baseName .. "/" .. baseName
 	obj.hand_base_picture.filename = baseGraphics .. "inserter-hand-base.png"
 	obj.hand_closed_picture.filename =  baseGraphics .. "Ghost-hand-closed.png"
 	obj.hand_open_picture.filename = baseGraphics .. "Ghost-hand-open.png"
 	obj.platform_picture.sheet.filename = baseGraphics .. GhostName .. ".png"
-	
+	--obj.flags = {"hidden"}
 	
 	data.raw[obj.type][obj.name] = obj
 end

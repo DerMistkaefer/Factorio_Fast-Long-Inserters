@@ -10,7 +10,7 @@ data:extend({
 	icon_size = 32,
     effects = {{type = "unlock-recipe",recipe = FLI.modName.."_fast-inserter"}},
     prerequisites = {"logistics"},
-    unit = {count = 75,ingredients = {{"science-pack-1", 1}},time = 5}
+    unit = {count = 75,ingredients = {{"automation-science-pack", 1}},time = 5}
   },
   	{
     type = "technology",
@@ -19,7 +19,7 @@ data:extend({
 	icon_size = 32,
     effects = {{type = "unlock-recipe",recipe = FLI.modName.."_filter-inserter"}},
     prerequisites = {"logistics","electronics",FLI.modName.."-1"},
-    unit = {count = 75, ingredients = {{"science-pack-1", 1},{"science-pack-2", 1}},time = 10}
+    unit = {count = 75, ingredients = {{"automation-science-pack", 1},{"logistic-science-pack", 1}},time = 10}
   },
   {
     type = "technology",
@@ -28,7 +28,7 @@ data:extend({
 	icon_size = 32,
     effects = {{type = "unlock-recipe", recipe = FLI.modName.."_stack-inserter"},{type = "unlock-recipe", recipe = FLI.modName.."_stack-filter-inserter"}},
     prerequisites = {"stack-inserter",FLI.modName.."-2"},
-    unit = {count = 75, ingredients = {{"science-pack-1", 1},{"science-pack-2", 1},{"science-pack-3", 1}},time = 15}
+    unit = {count = 75, ingredients = {{"automation-science-pack", 1},{"logistic-science-pack", 1},{"chemical-science-pack", 1}},time = 15}
   }
 })
 
