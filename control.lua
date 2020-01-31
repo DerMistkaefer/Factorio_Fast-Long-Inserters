@@ -31,7 +31,6 @@ function initialize()
 	global.FLI_I_y = global.FLI_I_y or {}
 	global.FLI_O_x = global.FLI_O_x or {}
 	global.FLI_O_y = global.FLI_O_y or {}
-	
 end
 
 -- when new game started
@@ -46,7 +45,6 @@ end)
 
 --when loaded mods changed
 script.on_configuration_changed(function(data)
-
 	initialize()
 	
 	if data.mod_changes == nil or data.mod_changes[FLI.modName] == nil then
@@ -67,7 +65,6 @@ script.on_event(defines.events.on_player_joined_game, function(event)
 	debug_mode()
 end)
 
-
 -- Entity build
 script.on_event(defines.events.on_built_entity, function(event)
 	if string.sub(event.created_entity.name,1,18) == "FastLongInserters_" then
@@ -87,7 +84,7 @@ script.on_event(defines.events.on_built_entity, function(event)
 		
 		debug_print("Player:" .. player.name)
 		debug_print(event.created_entity.name)
-		GUI(player)
+		GUI_update(player)
 	end
 end)
 
@@ -102,47 +99,27 @@ script.on_event(defines.events.on_player_rotated_entity, function(event)
 	end
 end)
 
--- GUI open when entity was opend
-script.on_event(defines.events.on_tick, function(event)
-	for _, p in pairs(game.players) do
-		if p.gui.left.FLI_GUI_base == nil then
-			if p.opened ~= nil then
-				debug_print("Player:" .. p.opened.name)
-				if string.sub(p.opened.name,1,18) == "FastLongInserters_" then
-					
-					entity = p.opened
-					global.FLI[p.index] = entity
-					
-					pickup_position_x = entity.pickup_position.x-entity.position.x
-					pickup_position_y = entity.pickup_position.y-entity.position.y
-					drop_position_x = entity.drop_position.x-entity.position.x
-					drop_position_y = entity.drop_position.y-entity.position.y
-	
-					if pickup_position_x == 0 then global.FLI_I[p.index] = math.floor(pickup_position_y + 0.5)
-					elseif pickup_position_y == 0 then global.FLI_I[p.index] = math.floor(pickup_position_x + 0.5) end
-				
-					if drop_position_x == 0 then global.FLI_O[p.index] = math.floor(drop_position_y + 0.5)
-					elseif drop_position_y == 0 then global.FLI_O[p.index] = math.floor(drop_position_x + 0.5) end
-				
-				
-					if global.FLI_I[p.index] <= 0 then global.FLI_I[p.index] = global.FLI_I[p.index] *(-1) end
-					if global.FLI_O[p.index] <= 0 then global.FLI_O[p.index] = global.FLI_O[p.index] *(-1) end
-				
-					global.FLI_I_x[p.index] = entity.pickup_position.x-entity.position.x
-					global.FLI_I_y[p.index] = entity.pickup_position.y-entity.position.y
-					global.FLI_O_x[p.index] = entity.drop_position.x-entity.position.x
-					global.FLI_O_y[p.index] = entity.drop_position.y-entity.position.y
+-- GUI Open
+script.on_event(defines.events.on_gui_opened, function(event)
+	player = game.players[event.player_index]
+	if event.gui_type == defines.gui_type.entity and player.gui.left.FLI_GUI_base == nil then
+		debug_print("Player:" .. event.entity.name)
+		if string.sub(event.entity.name,1,18) == "FastLongInserters_" then
+			GUI_open(player, event.entity)
+		end
+	end
+end)
 
-					GUI(p)
-				end
-			end
-		else	
-			if not global.FLI_GUI[p.index] == true then
-				if p.opened == nil then
-					GUI_close(p)
-				elseif not string.sub(p.opened.name,1,18) == "FastLongInserters_" then
-					GUI_close(p)
-				end
+-- GUI Close
+script.on_event(defines.events.on_gui_closed, function(event)
+	player = game.players[event.player_index]
+	if event.gui_type == defines.gui_type.entity and player.gui.left.FLI_GUI_base ~= nil then
+		debug_print("Player:" .. event.entity.name)
+		if not global.FLI_GUI[player.index] == true then
+			if player.opened == nil then
+				GUI_close(player)
+			elseif not string.sub(player.opened.name,1,18) == "FastLongInserters_" then
+				GUI_close(player)
 			end
 		end
 	end
@@ -154,19 +131,19 @@ script.on_event(defines.events.on_gui_click, function(event)
 	if (event.element.name == "FLI_GUI_flow_Input_Button_top") then
 		if global.FLI_I[player.index] < 10 then global.FLI_I[player.index] = global.FLI_I[player.index] + 1 end
 		reEntity(player)
-		GUI(player)
+		GUI_update(player)
 	elseif (event.element.name == "FLI_GUI_flow_Input_Button_down") then
 		if global.FLI_I[player.index] > 1 then global.FLI_I[player.index] = global.FLI_I[player.index] - 1 end
 		reEntity(player)
-		GUI(player)
+		GUI_update(player)
 	elseif (event.element.name == "FLI_GUI_flow_Output_Button_top") then
 		if global.FLI_O[player.index] < 10 then global.FLI_O[player.index] = global.FLI_O[player.index] + 1 end
 		reEntity(player)
-		GUI(player)
+		GUI_update(player)
 	elseif (event.element.name == "FLI_GUI_flow_Output_Button_down") then
 		if global.FLI_O[player.index] > 1 then global.FLI_O[player.index] =  global.FLI_O[player.index] - 1 end
 		reEntity(player)
-		GUI(player)
+		GUI_update(player)
 	elseif (event.element.name == "FLI_GUI_close") then
 		GUI_close(player)
 	end
@@ -220,6 +197,30 @@ function side(x,y,var)
 	end
 end
 
+function GUI_open(player, entity)
+	global.FLI[player.index] = entity
+
+	pickup_position_x = entity.pickup_position.x-entity.position.x
+	pickup_position_y = entity.pickup_position.y-entity.position.y
+	drop_position_x = entity.drop_position.x-entity.position.x
+	drop_position_y = entity.drop_position.y-entity.position.y
+
+	if pickup_position_x == 0 then global.FLI_I[player.index] = math.floor(pickup_position_y + 0.5)
+	elseif pickup_position_y == 0 then global.FLI_I[player.index] = math.floor(pickup_position_x + 0.5) end
+
+	if drop_position_x == 0 then global.FLI_O[player.index] = math.floor(drop_position_y + 0.5)
+	elseif drop_position_y == 0 then global.FLI_O[player.index] = math.floor(drop_position_x + 0.5) end
+
+	if global.FLI_I[player.index] <= 0 then global.FLI_I[player.index] = global.FLI_I[player.index] *(-1) end
+	if global.FLI_O[player.index] <= 0 then global.FLI_O[player.index] = global.FLI_O[player.index] *(-1) end
+
+	global.FLI_I_x[player.index] = entity.pickup_position.x-entity.position.x
+	global.FLI_I_y[player.index] = entity.pickup_position.y-entity.position.y
+	global.FLI_O_x[player.index] = entity.drop_position.x-entity.position.x
+	global.FLI_O_y[player.index] = entity.drop_position.y-entity.position.y
+
+	GUI_update(player)
+end
 
 function GUI_arrow(player)
 	local inserter = global.FLI[player.index]
@@ -243,16 +244,13 @@ function GUI_arrow(player)
 	GUI_arrow_O = game.surfaces[1].create_entity{name = "entity-ghost", inner_name="FastLongInserters_Ghost_O", position=inserter.drop_position, force = game.forces.player}
 end
 
-
-
-function GUI(player)
+function GUI_update(player)
 	debug_print("F - GUI_print")
 	debug_print("Input: " .. global.FLI_I[player.index])
 	debug_print("Output: " .. global.FLI_O[player.index])
 
 	GUI_arrow(player)
 
-	
 	debug_print("GUI_normal")
 	local gui0 = player.gui.left.FLI_GUI_base
     local destroyed = false
@@ -264,27 +262,27 @@ function GUI(player)
 	
 	if not gui0 or destroyed then
 		gui0 = player.gui.left.add{type="frame", name="FLI_GUI_base", direction = "vertical", style = "FLI_base_style"}
-		gui1 = gui0.add{type="frame", name="FLI_GUI_frame", direction = "vertical", caption = {"gui.FLI-gui-title"}, style = "FLI_frame_style"}
+		guiF = gui0.add{type="frame", name="FLI_GUI_frame", direction = "vertical", caption = {"gui.FLI-gui-title"}, style = "FLI_frame_style"}
 		
-		gui2 = gui1.add{type="flow",name="FLI_GUI_flow_Input", direction = "vertical", style = "FLI_vertical_flow_style"}
-		gui2.add{type = "label", caption = "Input", style = "FLI_label_IO_Button_Titel_style"}
-		gui3 = gui2.add{type="flow",name="FLI_GUI_flow_Input_Text", direction = "horizontal", style = "FLI__horizontal_flow_style"}
-		gui4 = gui3.add{type="flow",name="FLI_GUI_flow_Input_Button", direction = "vertical", style = "FLI_vertical_flow_style"}
-		gui4.add{type="sprite-button",name="FLI_GUI_flow_Input_Button_top", sprite = "FLI_sprite_button_top", style = "FLI_button_IO_Button_style"}
-		gui4.add{type="sprite-button",name="FLI_GUI_flow_Input_Button_down", sprite = "FLI_sprite_button_down", style = "FLI_button_IO_Button_style"}
-		gui3.add{type = "sprite", sprite = "FLI_sprite_number_" .. global.FLI_I[player.index]}
+		guiI = guiF.add{type="flow",name="FLI_GUI_flow_Input", direction = "vertical", style = "FLI_vertical_flow_style"}
+		guiI.add{type = "label", caption = "Input", style = "FLI_label_IO_Button_Titel_style"}
+		guiI_Text = guiI.add{type="flow",name="FLI_GUI_flow_Input_Text", direction = "horizontal", style = "FLI__horizontal_flow_style"}
+		guiI_Btn = guiI_Text.add{type="flow",name="FLI_GUI_flow_Input_Button", direction = "vertical", style = "FLI_vertical_flow_style"}
+		guiI_Btn.add{type="sprite-button",name="FLI_GUI_flow_Input_Button_top", sprite = "FLI_sprite_button_top", style = "FLI_button_IO_Button_style"}
+		guiI_Btn.add{type="sprite-button",name="FLI_GUI_flow_Input_Button_down", sprite = "FLI_sprite_button_down", style = "FLI_button_IO_Button_style"}
+		guiI_Number = guiI_Text.add{type = "flow", name="FLI_GUI_flow_Input_Number", direction = "vertical", style = "FLI_vertical_flow_style"}
+		guiI_Number.add{type = "label", caption = global.FLI_I[player.index], style="FLI_label_IO_Number_style"}
 		
-		
-		gui5 = gui1.add{type="flow",name="FLI_GUI_flow_Output", direction = "vertical", style = "FLI_vertical_flow_style"}
-		gui5.add{type = "label", caption = "Output", style = "FLI_label_IO_Button_Titel_style"}
-		gui6 = gui5.add{type="flow",name="FLI_GUI_flow_Output_Text", direction = "horizontal", style = "FLI__horizontal_flow_style"}
-		gui7 = gui6.add{type="flow",name="FLI_GUI_flow_Output_Button", direction = "vertical", style = "FLI_vertical_flow_style"}
-		gui7.add{type="sprite-button",name="FLI_GUI_flow_Output_Button_top", sprite = "FLI_sprite_button_top", style = "FLI_button_IO_Button_style"}
-		gui7.add{type="sprite-button",name="FLI_GUI_flow_Output_Button_down", sprite = "FLI_sprite_button_down", style = "FLI_button_IO_Button_style"}
-		gui6.add{type = "sprite", sprite = "FLI_sprite_number_" .. global.FLI_O[player.index]}
-		
-		gui1.add{type="button",name="FLI_GUI_close", caption ={"gui.FLI-gui-close"}, style = "FLI_button_style"}
+		guiO = guiF.add{type="flow",name="FLI_GUI_flow_Output", direction = "vertical", style = "FLI_vertical_flow_style"}
+		guiO.add{type = "label", caption = "Output", style = "FLI_label_IO_Button_Titel_style"}
+		guiO_Text = guiO.add{type="flow",name="FLI_GUI_flow_Output_Text", direction = "horizontal", style = "FLI__horizontal_flow_style"}
+		guiO_Btn = guiO_Text.add{type="flow",name="FLI_GUI_flow_Output_Button", direction = "vertical", style = "FLI_vertical_flow_style"}
+		guiO_Btn.add{type="sprite-button",name="FLI_GUI_flow_Output_Button_top", sprite = "FLI_sprite_button_top", style = "FLI_button_IO_Button_style"}
+		guiO_Btn.add{type="sprite-button",name="FLI_GUI_flow_Output_Button_down", sprite = "FLI_sprite_button_down", style = "FLI_button_IO_Button_style"}
+		guiO_Number = guiO_Text.add{type="flow",name="FLI_GUI_flow_Output_Number", direction = "vertical", style = "FLI_vertical_flow_style"}
+		guiO_Number.add{type = "label", caption = global.FLI_O[player.index], style="FLI_label_IO_Number_style"}
 
+		guiF.add{type="button",name="FLI_GUI_close", caption ={"gui.FLI-gui-close"}, style = "FLI_button_style"}
 	end
 end
 

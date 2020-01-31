@@ -3,28 +3,15 @@ FLI.modName = "FastLongInserters"
 FLI.guiPath = "__"..FLI.modName.."__/graphics/gui/"
 
 
-data:extend(
-	{
+data:extend({
 	{type = "font", name = "FLI_font", from = "default", border = false, size = 20},
+	{type = "font", name = "FLI_font_io_number", from = "default", border = false, size = 45},
 	{type = "font", name = "FLI_font_bold", from = "default-bold", border = false, size = 20},
 	{type = "font", name = "FLI_Titel_font", from = "default-bold", border = false, size = 38},
 	
 	{type = "sprite", name = "FLI_sprite_button_top", filename = "__core__/graphics/arrows/hint-orange-arrow-up.png", width = 62, height = 37},
 	{type = "sprite", name = "FLI_sprite_button_down", filename = "__core__/graphics/arrows/hint-orange-arrow-down.png", width = 71, height = 35},
-	
-	{type = "sprite", name = "FLI_sprite_number_1", filename = FLI.guiPath.."1.png", width = 44, height = 44},
-	{type = "sprite", name = "FLI_sprite_number_2", filename = FLI.guiPath.."2.png", width = 44, height = 44},
-	{type = "sprite", name = "FLI_sprite_number_3", filename = FLI.guiPath.."3.png", width = 44, height = 44},
-	{type = "sprite", name = "FLI_sprite_number_4", filename = FLI.guiPath.."4.png", width = 44, height = 44},
-	{type = "sprite", name = "FLI_sprite_number_5", filename = FLI.guiPath.."5.png", width = 44, height = 44},
-	{type = "sprite", name = "FLI_sprite_number_6", filename = FLI.guiPath.."6.png", width = 44, height = 44},
-	{type = "sprite", name = "FLI_sprite_number_7", filename = FLI.guiPath.."7.png", width = 44, height = 44},
-	{type = "sprite", name = "FLI_sprite_number_8", filename = FLI.guiPath.."8.png", width = 44, height = 44},
-	{type = "sprite", name = "FLI_sprite_number_9", filename = FLI.guiPath.."9.png", width = 44, height = 44},
-	{type = "sprite", name = "FLI_sprite_number_10", filename = FLI.guiPath.."10.png", width = 44, height = 44}
-
-	}
-)
+})
 
 local default_gui =  data.raw["gui-style"].default
 
@@ -110,6 +97,6 @@ default_gui.FLI_button_style = {
 
 default_gui.FLI_label_IO_Button_Titel_style = {type="label_style", parent="FLI_label_style", font="FLI_Titel_font"}
 default_gui.FLI_button_IO_Button_style = {type="button_style", parent="FLI_button_style", width = 44, height = 24}
-
+default_gui.FLI_label_IO_Number_style = {type="label_style", parent="FLI_label_style", font="FLI_font_io_number"}
 
 
