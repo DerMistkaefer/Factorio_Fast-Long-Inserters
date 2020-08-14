@@ -24,6 +24,7 @@ function FastLongInserter_addItem(base,baseName,order)
 	obj.name = FLI.modName .. "_" .. baseName
 	obj.icon = icon
 	obj.icon_size = 32
+	obj.icon_mipmaps = 0
 	obj.place_result = obj.name
 	obj.order = order
 	
@@ -78,6 +79,7 @@ function FastLongInserter_addItemG(base,baseName,GhostName)
 	obj.name = FLI.modName .. "_" .. GhostName
 	obj.icon = icon
 	obj.icon_size = 32
+	obj.icon_mipmaps = 0
 	obj.place_result = obj.name
 	obj.flags = {"hidden"}
 	
