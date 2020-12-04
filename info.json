@@ -6,6 +6,6 @@
   "contact": "http://www.dermistkaefer.com/contact",
   "homepage": "http://www.dermistkaefer.com",
   "description": "Fast Long Inserters is a mod that adds the normal inserters in a long hand variant.",
-  "factorio_version": "1.0",
+  "factorio_version": "1.1",
   "dependencies": ["base >= 1.0.0"]
 }
