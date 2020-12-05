@@ -6,4 +6,4 @@ Fast Long Inserters is a mod that adds the normal inserters in a long hand varia
 
 ## Changelog
 
-[Factorio Changelog File](../blob/master/changelog.txt)
+[Factorio Changelog File](../master/changelog.txt)
