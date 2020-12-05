@@ -61,9 +61,13 @@ function FastLongInserter_addEntity(base,baseName)
 	local baseGraphics = "__".. FLI.modName .."__/graphics/entity/"
 	local baseGraphicsInserter = baseGraphics .. baseName .. "/" .. baseName
 	obj.hand_base_picture.filename = baseGraphics .. "inserter-hand-base.png"
-	obj.hand_closed_picture.filename =  baseGraphicsInserter .. "-hand-closed.png"
+	obj.hand_base_picture.hr_version = null
+	obj.hand_closed_picture.filename = baseGraphicsInserter .. "-hand-closed.png"
+	obj.hand_closed_picture.hr_version = null
 	obj.hand_open_picture.filename = baseGraphicsInserter .. "-hand-open.png"
+	obj.hand_open_picture.hr_version = null
 	obj.platform_picture.sheet.filename = baseGraphics .. "inserter-platform.png"
+	obj.platform_picture.sheet.hr_version = null
 	
 	obj.pickup_position = {0, -2}
 	obj.insert_position = {0, 2.2}
@@ -95,9 +99,13 @@ function FastLongInserter_addEntityG(base,baseName,GhostName)
 	local baseGraphics = "__".. FLI.modName .."__/graphics/entity/Ghost/"
 	local baseGraphicsInserter = baseGraphics .. baseName .. "/" .. baseName
 	obj.hand_base_picture.filename = baseGraphics .. "inserter-hand-base.png"
+	obj.hand_base_picture.hr_version = null
 	obj.hand_closed_picture.filename =  baseGraphics .. "Ghost-hand-closed.png"
+	obj.hand_closed_picture.hr_version = null
 	obj.hand_open_picture.filename = baseGraphics .. "Ghost-hand-open.png"
+	obj.hand_open_picture.hr_version = null
 	obj.platform_picture.sheet.filename = baseGraphics .. GhostName .. ".png"
+	obj.platform_picture.sheet.hr_version = null
 	--obj.flags = {"hidden"}
 	
 	data.raw[obj.type][obj.name] = obj
