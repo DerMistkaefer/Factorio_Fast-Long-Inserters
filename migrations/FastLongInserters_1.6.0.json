@@ -1,0 +1,19 @@
+{
+  "item":
+  [
+    ["FastLongInserters_filter-inserter", "FastLongInserters_fast-inserter"],
+    ["FastLongInserters_stack-inserter", "FastLongInserters_bulk-inserter"],
+    ["FastLongInserters_stack-filter-inserter", "FastLongInserters_bulk-inserter"]
+  ],
+  "entity":
+  [
+    ["FastLongInserters_filter-inserter", "FastLongInserters_fast-inserter"],
+    ["FastLongInserters_stack-inserter", "FastLongInserters_bulk-inserter"],
+    ["FastLongInserters_stack-filter-inserter", "FastLongInserters_bulk-inserter"]
+  ],
+  "technology":
+  [
+    ["FastLongInserters-1", "FastLongInserters-fast-inserter"],
+    ["FastLongInserters-3", "FastLongInserters-bulk-inserter"]
+  ]
+}
